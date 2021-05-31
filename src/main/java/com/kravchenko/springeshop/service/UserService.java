@@ -1,8 +1,16 @@
 package com.kravchenko.springeshop.service;
 
+import com.kravchenko.springeshop.domain.User;
 import com.kravchenko.springeshop.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends UserDetailsService {
+import java.util.List;
+
+public interface UserService extends UserDetailsService { // security
     boolean save(UserDTO userDTO);
+    void save(User user);
+    List<UserDTO> getAll();
+
+    User findByName(String name);
+    void updateProfile(UserDTO userDTO);
 }

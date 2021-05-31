@@ -143,10 +143,3 @@ alter table if exists buckets
 alter table if exists orders
     add constraint orders_fk_users
         foreign key (user_id) references users;
-
-
-
-
-
-
-
