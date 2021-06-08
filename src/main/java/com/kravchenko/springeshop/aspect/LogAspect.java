@@ -6,14 +6,28 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @Aspect
 @Component
 @Log4j2
 public class LogAspect {
 
     @Pointcut("execution(* com.kravchenko.springeshop.service.*.*(..))")
-    private void anyMethod() {
+    private void anyMethod() { }
 
+    @Before("anyMethod()")
+    public void logBefore(JoinPoint joinPoint) {
+        String args = Arrays.stream(joinPoint.getArgs())
+                .map(a -> a.toString())
+                .collect(Collectors.joining(","));
+        log.info("before " + joinPoint.toString() + ", args=[" + args + "]");
+    }
+
+    @After("anyMethod()")
+    public void logAfter(JoinPoint joinPoint) {
+        log.info("after " + joinPoint.toString());
     }
 
     @AfterThrowing("anyMethod()")
@@ -22,18 +36,4 @@ public class LogAspect {
         System.out.println("Log AfterThrowing : " + joinPoint);
     }
 
-    @Around("anyMethod()")
-    public Object logAround(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("Log around before : " + System.currentTimeMillis());
-        log.info("Log around before : " + System.currentTimeMillis());
-        Object value;
-        try {
-            value= pjp.proceed();
-        } catch (Throwable t) {
-            System.out.println("Log around after with error: " + System.currentTimeMillis());
-            return null;
-        }
-        System.out.println("Log around after : " + System.currentTimeMillis());
-        return value;
-    }
 }

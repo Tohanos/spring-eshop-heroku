@@ -15,8 +15,4 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping("/log")
-    public String log() {
-        return "log";
-    }
 }
