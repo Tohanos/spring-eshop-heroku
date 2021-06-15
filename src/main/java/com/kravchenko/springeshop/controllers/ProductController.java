@@ -56,4 +56,12 @@ public class ProductController {
 	public void messageAddProduct(ProductDTO dto) {
 		productService.addProduct(dto);
 	}
+
+	@MessageMapping("/bucket")
+	public void messageAddBucket(@PathVariable Long id, Principal principal) {
+		if (principal != null) {
+			productService.addToUserBucket(id, principal.getName());
+		}
+	}
+
 }
