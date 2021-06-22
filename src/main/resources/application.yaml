@@ -1,4 +1,9 @@
 spring:
+  application:
+    name: eshopapp
+  cloud:
+    config:
+      uri: http://localhost:8888
   jpa:
     hibernate:
       ddl-auto: validate
