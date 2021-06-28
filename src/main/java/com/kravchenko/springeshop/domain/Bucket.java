@@ -1,9 +1,6 @@
 package com.kravchenko.springeshop.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,11 +20,10 @@ public class Bucket {
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    @ToString.Exclude private User user;
     @ManyToMany
     @JoinTable(name = "buckets_products",
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    List<Product> products;
-
+    private List<Product> products;
 }

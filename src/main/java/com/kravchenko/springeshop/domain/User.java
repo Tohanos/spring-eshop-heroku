@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
+
     private static final String SEQ_NAME = "user_seq";
 
     @Id
@@ -26,9 +27,7 @@ public class User {
     private boolean archive;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Bucket bucket;
-
-
 
 }

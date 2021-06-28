@@ -17,6 +17,15 @@ function connect() {
             renderBucket(bucket);
         });
     });
+
+    var weatherSocket = new SockJS('/weatherSocket');
+    stomp2 = Stomp.over(weatherSocket);
+    stomp2.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stomp2.subscribe('/topic/weather', function (weather) {
+            renderWeather(weather);
+        });
+    });
 }
 
 // хук на интерфейс
@@ -58,5 +67,10 @@ function renderItem(productJson) {
 
 function renderBucket(bucketJson) {
     var bucket = JSON.parse(bucketJson.body);
-    $("#bucketSum").append(bucket.sum);
+    $("#bucketSum").val(bucket.sum);
+}
+
+function renderWeather(weatherJson) {
+    var weather = JSON.parse(weatherJson.body);
+    $("#weather-temp").val(weather);
 }

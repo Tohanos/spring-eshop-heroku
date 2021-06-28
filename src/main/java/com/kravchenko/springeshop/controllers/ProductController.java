@@ -29,10 +29,13 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public String list(Model model) {
+	public String list(Model model, Principal principal) {
 		sessionObjectHolder.addClick();
 		List<ProductDTO> list = productService.getAll();
 		model.addAttribute("products", list);
+		if (principal != null) {
+			productService.updateUserBucket(principal.getName());
+		}
 		return "products";
 	}
 
