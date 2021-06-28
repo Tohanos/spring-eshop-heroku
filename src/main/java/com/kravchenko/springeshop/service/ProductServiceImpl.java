@@ -5,6 +5,7 @@ import com.kravchenko.springeshop.domain.Bucket;
 import com.kravchenko.springeshop.domain.Product;
 import com.kravchenko.springeshop.domain.User;
 import com.kravchenko.springeshop.dto.ProductDTO;
+import com.kravchenko.springeshop.mapper.BucketMapper;
 import com.kravchenko.springeshop.mapper.ProductMapper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			bucketService.addProducts(bucket, Collections.singletonList(productId));
 		}
+//		template.convertAndSend("/topic/bucket", BucketMapper.MAPPER.fromBucket(bucket));
 	}
 
 	@Override

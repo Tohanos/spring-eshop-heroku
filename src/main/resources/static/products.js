@@ -13,6 +13,9 @@ function connect() {
         stomp.subscribe('/topic/products', function (product) {
             renderItem(product);
         });
+        stomp.subscribe('/topic/bucket', function (bucket) {
+            renderBucket(bucket);
+        });
     });
 }
 
@@ -24,6 +27,13 @@ $(function () {
     $( "#send" ).click(function() { sendContent(); });
 });
 
+// $(function () {
+//     $("toBucket").on('click', function (e) {
+//          e.preventDefault();
+//     });
+//     $( "#toBucket" ).click(function() { sendToBucket(); });
+// });
+
 // отправка сообщения на сервер
 function sendContent() {
     stomp.send("/app/products", {}, JSON.stringify({
@@ -32,12 +42,21 @@ function sendContent() {
     }));
 }
 
+function sendToBucket(id) {
+    stomp.send("/app/bucket", {}, JSON.stringify(id));
+}
+
 // рендер сообщения, полученного от сервера
 function renderItem(productJson) {
     var product = JSON.parse(productJson.body);
     $("#table").append("<tr>" +
         "<td>" + product.title + "</td>" +
         "<td>" + product.price + "</td>" +
-        "<td><a href='/products'" + product.id + "/bucket'>Add to backet</a></td>" +
+        "<td><a href='/products'" + product.id + "/bucket'>Add to bucket</a></td>" +
         "</tr>");
+}
+
+function renderBucket(bucketJson) {
+    var bucket = JSON.parse(bucketJson.body);
+    $("#bucketSum").append(bucket.sum);
 }
