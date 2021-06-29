@@ -16,13 +16,7 @@ function connect() {
         stomp.subscribe('/topic/bucket', function (bucket) {
             renderBucket(bucket);
         });
-    });
-
-    var weatherSocket = new SockJS('/weatherSocket');
-    stomp2 = Stomp.over(weatherSocket);
-    stomp2.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stomp2.subscribe('/topic/weather', function (weather) {
+        stomp.subscribe('/topic/weather', function (weather) {
             renderWeather(weather);
         });
     });
@@ -67,7 +61,7 @@ function renderItem(productJson) {
 
 function renderBucket(bucketJson) {
     var bucket = JSON.parse(bucketJson.body);
-    $("#bucketSum").val(bucket.sum);
+    $("#bucketSum").replaceWith(bucket.sum);
 }
 
 function renderWeather(weatherJson) {

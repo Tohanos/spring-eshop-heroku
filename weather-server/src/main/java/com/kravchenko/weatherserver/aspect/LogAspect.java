@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 @Log4j2
 public class LogAspect {
-    @Pointcut("execution(* com.kravchenko.weatherserver.service.*.*(..))")
+    @Pointcut("execution(* com.kravchenko.weatherserver.*.*(..))")
     private void anyMethod() { }
 
     @Before("anyMethod()")

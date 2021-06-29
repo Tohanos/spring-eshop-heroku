@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherService {
     private OpenWeatherMapClient client;
-    private final SimpMessagingTemplate template;
 
     @Value("${config.api_key}")
     private String apiKey;
@@ -22,23 +21,21 @@ public class WeatherService {
     @Value("${config.url}")
     private String url;
 
-    public WeatherService(SimpMessagingTemplate template) {
-        this.template = template;
+    public WeatherService() {
 //        client = new OpenWeatherMapClient(apiKey); // <- конструктор вызывается раньше, чем клиент получает настройки от Cloud-Config сервера
     }
 
-    @Scheduled(fixedRate = 300000)  //Вытащить в Cloud Config
-    public void getCurrentWeather() {
+    public String getCurrentWeather() {
         if (client == null) {
             client = new OpenWeatherMapClient(apiKey);
         }
-        template.convertAndSend("/topic/weather", client
+        return client
                 .currentWeather()
                 .single()
                 .byCityName(location)
                 .language(Language.RUSSIAN)
                 .unitSystem(UnitSystem.METRIC)
                 .retrieve()
-                .asJSON());
+                .asJSON();
     }
 }
