@@ -16,6 +16,9 @@ function connect() {
         stomp.subscribe('/topic/bucket', function (bucket) {
             renderBucket(bucket);
         });
+        stomp.subscribe('/topic/weather', function (weather) {
+            renderWeather(weather);
+        });
     });
 }
 
@@ -58,5 +61,10 @@ function renderItem(productJson) {
 
 function renderBucket(bucketJson) {
     var bucket = JSON.parse(bucketJson.body);
-    $("#bucketSum").append(bucket.sum);
+    $("#bucketSum").replaceWith(bucket.sum);
+}
+
+function renderWeather(weatherJson) {
+    var weather = JSON.parse(weatherJson.body);
+    $("#weather-temp").val(weather);
 }

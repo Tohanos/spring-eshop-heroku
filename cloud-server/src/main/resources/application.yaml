@@ -10,7 +10,7 @@ spring:
           clone-on-start: true
           #don't forget username and password
           username: Tohanos
-          password: ******
+          password: 2erNLMMe6t5eyrTz
   application:
     name: config-server
 

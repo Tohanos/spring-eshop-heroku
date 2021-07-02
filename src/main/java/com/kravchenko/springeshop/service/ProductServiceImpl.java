@@ -4,8 +4,8 @@ import com.kravchenko.springeshop.dao.ProductRepository;
 import com.kravchenko.springeshop.domain.Bucket;
 import com.kravchenko.springeshop.domain.Product;
 import com.kravchenko.springeshop.domain.User;
+import com.kravchenko.springeshop.dto.BucketDTO;
 import com.kravchenko.springeshop.dto.ProductDTO;
-import com.kravchenko.springeshop.mapper.BucketMapper;
 import com.kravchenko.springeshop.mapper.ProductMapper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			bucketService.addProducts(bucket, Collections.singletonList(productId));
 		}
-//		template.convertAndSend("/topic/bucket", BucketMapper.MAPPER.fromBucket(bucket));
+		updateUserBucket(username);
 	}
 
 	@Override
@@ -60,6 +60,11 @@ public class ProductServiceImpl implements ProductService {
 	public void addProduct(ProductDTO dto) {
 		Product product = mapper.toProduct(dto);
 		Product savedProduct = productRepository.save(product);
-		template.convertAndSend("/topic/products", ProductMapper.MAPPER.fromProduct(savedProduct));
+		template.convertAndSend("/topic/products", mapper.fromProduct(savedProduct));
+	}
+
+	@Override
+	public void updateUserBucket(String username) {
+		template.convertAndSend("/topic/bucket", bucketService.getBucketByUser(username));
 	}
 }
