@@ -59,6 +59,17 @@ public class BucketServiceImpl implements BucketService {
 	}
 
 	@Override
+	public void deleteProduct(Bucket bucket, Long productId) {
+		List<Product> products = bucket.getProducts();
+		products.remove(products.stream()
+				.filter(product -> productId.equals(product.getId()))
+				.findAny()
+				.orElse(null));
+		bucket.setProducts(products);
+		bucketRepository.save(bucket);
+	}
+
+	@Override
 	public BucketDTO getBucketByUser(String name) {
 		User user = userService.findByName(name);
 		if (user == null || user.getBucket() == null) {

@@ -3,7 +3,6 @@ package com.kravchenko.weatherserver.integration;
 import com.kravchenko.weatherserver.config.WeatherIntegrationConfig;
 import com.kravchenko.weatherserver.service.WeatherService;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHandlingException;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
