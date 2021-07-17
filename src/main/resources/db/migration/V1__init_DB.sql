@@ -59,13 +59,8 @@ create table orders_details
     price numeric(19, 2),
     order_id int8,
     product_id int8,
-    details_id int8 not null,
     primary key (id)
 );
-
-alter table if exists orders_details
-    add constraint orders_details_fk
-        unique (details_id);
 
 -- PRODUCT
 drop sequence if exists product_seq;
@@ -96,10 +91,6 @@ alter table if exists orders_details
     add constraint orders_details_fk_product
         foreign key (product_id) references products;
 
-alter table if exists orders_details
-    add constraint orders_details_fk_detail
-        foreign key (details_id) references orders_details;
-
 -- PRODUCT-CATEGORIES
 drop table if exists products_categories CASCADE;
 create table products_categories
@@ -128,13 +119,8 @@ create table users
     name varchar(255),
     password varchar(255),
     role varchar(255),
-    bucket_id int8,
     primary key (id)
 );
-
-alter table if exists users
-    add constraint users_fk_buckets
-        foreign key (bucket_id) references buckets;
 
 alter table if exists buckets
     add constraint buckets_fk_users
