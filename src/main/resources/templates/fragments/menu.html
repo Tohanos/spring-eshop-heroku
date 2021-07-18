@@ -7,6 +7,11 @@
 <body>
 <table id="nav-menu" width="100%">
     <tr>
+        <td align="left">
+            <div>
+                Temperature = <a id="weather-temp">00.00</a> Celsius
+            </div>
+        </td>
         <td align="center">
             <table>
                 <tr>
@@ -15,7 +20,6 @@
                     <td><a th:href="@{/products}">Products</a></td>
                     <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/users}">Users</a></td>
                     <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Bucket</a></td>
-                    <td sec:authorize="isAuthenticated()"><a id="bucketSum">00.00</a></td>
                 </tr>
             </table>
         </td>
@@ -23,6 +27,9 @@
             <div sec:authorize="isAuthenticated()">
                 <div>
                     Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Bill</span></a>
+                </div>
+                <div>
+                    Bucket sum = <a id="bucketSum">00.00</a>
                 </div>
                 <div>
                     <a th:href="@{/logout}">Logout</a>

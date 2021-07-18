@@ -19,6 +19,7 @@ function connect() {
         stomp.subscribe('/topic/weather', function (weather) {
             renderWeather(weather);
         });
+        stomp.send("/app/menu", {}, {});
     });
 }
 
@@ -55,16 +56,19 @@ function renderItem(productJson) {
     $("#table").append("<tr>" +
         "<td>" + product.title + "</td>" +
         "<td>" + product.price + "</td>" +
-        "<td><a href='/products'" + product.id + "/bucket'>Add to bucket</a></td>" +
+        "<td><button id='toBucket' value=" + product.id + " name='Add to bucket'" +
+        "type='button' onclick='sendToBucket(value)'>Add to bucket</button></td>" +
         "</tr>");
 }
 
 function renderBucket(bucketJson) {
     var bucket = JSON.parse(bucketJson.body);
-    $("#bucketSum").replaceWith(bucket.sum);
+    // $("#bucketSum").replaceWith(bucket.sum);
+    document.getElementById("bucketSum").innerText = bucket.sum;
 }
 
 function renderWeather(weatherJson) {
     var weather = JSON.parse(weatherJson.body);
-    $("#weather-temp").val(weather);
+    // $("#weather-temp").innerHTML = weather.main.temp;
+    document.getElementById("weather-temp").innerText = weather.main.temp;
 }

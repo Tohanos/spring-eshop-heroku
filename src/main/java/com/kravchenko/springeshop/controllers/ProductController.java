@@ -3,6 +3,7 @@ package com.kravchenko.springeshop.controllers;
 import com.kravchenko.springeshop.dto.ProductDTO;
 import com.kravchenko.springeshop.service.ProductService;
 import com.kravchenko.springeshop.service.SessionObjectHolder;
+import com.kravchenko.springeshop.service.WeatherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -21,10 +22,12 @@ import java.util.List;
 public class ProductController {
 
 	private final ProductService productService;
+	private final WeatherService weatherService;
 	private final SessionObjectHolder sessionObjectHolder;
 
-	public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder) {
+	public ProductController(ProductService productService, WeatherService weatherService, SessionObjectHolder sessionObjectHolder) {
 		this.productService = productService;
+		this.weatherService = weatherService;
 		this.sessionObjectHolder = sessionObjectHolder;
 	}
 
@@ -64,6 +67,14 @@ public class ProductController {
 	public void messageAddBucket(@PathVariable Long id, Principal principal) {
 		if (principal != null) {
 			productService.addToUserBucket(id, principal.getName());
+		}
+	}
+
+	@MessageMapping("/menu")
+	public void messageUpdateMenu(Principal principal) {
+		weatherService.sendWeather(weatherService.currentWeather());
+		if (principal != null) {
+			productService.updateUserBucket(principal.getName());
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.kravchenko.springeshop.service;
 
 public interface WeatherService {
-    void getCurrentWeather();
+    String currentWeather();
+    void sendWeather(String weather);
 }

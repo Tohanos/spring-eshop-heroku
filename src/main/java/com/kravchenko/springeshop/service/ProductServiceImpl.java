@@ -64,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void updateUserBucket(String username) {
 		template.convertAndSend("/topic/bucket", bucketService.getBucketByUser(username));
 	}
